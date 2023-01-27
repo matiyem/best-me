@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+       <Properties>
+              <property name="reqLogPath">C:\\Users\\alai\\Desktop\\microservice</property>
+              <property name="excLogPath">C:/Users/alai/Desktop/microservice</property>
+              <property name="excArchive">${excLogPath}/archive</property>
+              <property name="ReqArchive">${reqLogPath}/archive</property>
+       </Properties>
+       <Appenders>
+              <RollingFile name="Req_Appender" fileName="${reqLogPath}/ReqLog.log" filePattern="${ReqArchive}/ReqLog %d{yyyy-MM-dd} - %i.log.gz"
+                           immediateFlush="true">
+                     <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss:ms} : %x%m%n" charset="UTF-8" />
+                     <Policies>
+                            <TimeBasedTriggeringPolicy/>
+                            <SizeBasedTriggeringPolicy size="10 MB"/>
+                     </Policies>
+                     <DefaultRolloverStrategy max="500"/>
+              </RollingFile>
+              <RollingFile name="Exc_Appender" fileName="${excLogPath}/ExcLog.log" filePattern="${excArchive}/ExcLog %d{yyyy-MM-dd} - %i.log.gz"
+                           immediateFlush="true">
+                     <PatternLayout pattern ="%d{yyyy-MM-dd HH:mm:ss:ms} : %x%m%n" charset="UTF-8" />
+                     <Policies>
+                            <TimeBasedTriggeringPolicy/>
+                            <SizeBasedTriggeringPolicy size="10 MB"/>
+                     </Policies>
+                     <DefaultRolloverStrategy max="500"/>
+              </RollingFile>
+              <RollingFile name="Buz_Appender" fileName="${businessErrorLogPath}/BuzError.log" filePattern="${archive}/BuzLog %d{yyyy-MM-dd} - %i.log.gz"
+                           immediateFlush="false" append="false">
+                     <PatternLayout pattern ="%d{yyyy-MM-dd hh:mm:ss:ms} : %m%n" charset="UTF-8" />
+                     <Policies>
+                            <TimeBasedTriggeringPolicy/>
+                            <SizeBasedTriggeringPolicy size="10 MB"/>
+                     </Policies>
+                     <DefaultRolloverStrategy max="500"/>
+              </RollingFile>
+
+       </Appenders>
+<!--       <Appenders>-->
+<!--              <Console name="Console">-->
+<!--                     <PatternLayout pattern="%d{HH:mm:ss.SSS}|%-5level|%t|%msg%n"/>-->
+<!--              </Console>-->
+<!--              <NoSql name="Mongo4">-->
+<!--                     <MongoDb4 capped="true" collectionSize="104857600"-->
+<!--                               connection="mongodb://localhost:27017/atiyeLog"-->
+<!--                               disabled="false"-->
+<!--                     />-->
+<!--              </NoSql>-->
+<!--       </Appenders>-->
+<!--       <Loggers>-->
+<!--              <Root level="DEBUG">-->
+<!--                     <AppenderRef ref="Console"/>-->
+<!--              </Root>-->
+<!--              <Logger name="com.example.demo.controller" level="DEBUG">-->
+<!--                     <AppenderRef ref="Mongo4"/>-->
+<!--              </Logger>-->
+<!--       </Loggers>-->
+
+       <Loggers>
+              <AsyncLogger name="ReqLogger" level="debug" includeLocation="true" >
+                     <AppenderRef ref="Req_Appender"/>
+              </AsyncLogger>
+
+              <AsyncLogger name="ExcLogger" level="debug" includeLocation="true" >
+                     <AppenderRef ref="Exc_Appender"/>
+              </AsyncLogger>
+
+              <AsyncLogger name="BuzErrorLogger" level="debug" includeLocation="true">
+                      <AppenderRef ref="Buz_Appender"/>
+       </AsyncLogger>
+       </Loggers>
+
+</Configuration>
