@@ -42,10 +42,10 @@ export default class LoginPage extends React.Component {
         UserService.login(user).then(data => {
             this.props.history.push("/home");
         }, error => {
-            this.setState({
-                errorMessage: "Username or password is not valid",
-                loading: false
-            });
+            // this.setState({
+            //     errorMessage: "Username or password is not valid",
+            //     loading: false
+            // });
         });
     }
 

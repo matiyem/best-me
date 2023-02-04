@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {BehaviorSubject} from 'rxjs';
 
-const API_URL = 'http://localhost:8080/user/';
+const API_URL = 'http://localhost:8080/auth/';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -16,30 +16,18 @@ class UserService {
 
     login(user) {
         debugger;
-        const headers = {
-            authorization:'Basic ' + btoa(user.username + ':' + user.password)
-        };
-        return axios.post(API_URL + "loginUser", headers,{
-
-        "username": "ds2525",
-        "password": "donotforgetme",
-        "email": "ds2525@gmail.com",
-        "roles": ["Admin","Manager"]
-
-        }).then(response => {
-            if (response.data.accessToken) {
+        return axios.post(
+            API_URL + "login",
+            JSON.stringify(user),
+            {headers: {'Content-Type': 'application/json; charset=UTF-8'}}
+        ).then(response => {
+            if (response.data.token) {
                 localStorage.setItem("user", JSON.stringify(response.data));
+
             }
 
             return response.data;
         });
-        // const headers = {
-        //   authorization:'Basic ' + btoa(user.username + ':' + user.password)
-        // };
-        // return axios.get(API_URL + 'login', {headers: headers}).then(response => {
-        //   localStorage.setItem('currentUser', JSON.stringify(response.data));
-        //   currentUserSubject.next(response.data);
-        // });
     }
 
     logOut() {
@@ -51,7 +39,9 @@ class UserService {
 
     register(user) {
         debugger;
-        return axios.post(API_URL + 'saveUser', JSON.stringify(user),
+        return axios.post(
+            API_URL + 'register',
+            JSON.stringify(user),
             {headers: {'Content-Type': 'application/json; charset=UTF-8'}});
     }
 
