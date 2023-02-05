@@ -38,4 +38,10 @@ public class User {
     )
     @Column(name="user_role")
     private Set<String> roles;
+
+    @Transient
+    private String token;
+
+    @Transient
+    private String message;
 }
