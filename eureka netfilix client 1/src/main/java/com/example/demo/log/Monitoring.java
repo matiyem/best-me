@@ -23,12 +23,12 @@ public class Monitoring {
         appLogger.logException(joinPoint, input, throwable);
     }
 
-    @Before(value = "(execution(* com.example.demo.controller..*.*(..))  && args(input))")
+    @Before(value = "(execution(* com.example.demo.course.controller..*.*(..))  && args(input))")
     public void logServiceCallInput(JoinPoint joinPoint, Object input) {
         appLogger.logRequestInput(joinPoint, input);
     }
 
-    @AfterReturning(value = "execution(* com.example.demo.controller..*.*(..)) ", returning = "result")
+    @AfterReturning(value = "execution(* com.example.demo.course.controller..*.*(..)) ", returning = "result")
     public void logServiceCallOutput(JoinPoint joinPoint, Object result) {
         appLogger.logRequestOutput(joinPoint, result);
 

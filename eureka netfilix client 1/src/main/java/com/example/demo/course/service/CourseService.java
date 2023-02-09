@@ -1,7 +1,8 @@
 package com.example.demo.course.service;
 
-import com.sha.microservicecoursemanagement.model.Course;
-import com.sha.microservicecoursemanagement.model.Transaction;
+
+import com.example.demo.course.model.Course;
+import com.example.demo.course.model.Transaction;
 
 import java.util.List;
 

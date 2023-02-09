@@ -1,6 +1,6 @@
 package com.example.demo.course.repository;
 
-import com.sha.microservicecoursemanagement.model.Transaction;
+import com.example.demo.course.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

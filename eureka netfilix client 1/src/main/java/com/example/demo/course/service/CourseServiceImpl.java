@@ -1,9 +1,9 @@
 package com.example.demo.course.service;
 
-import com.sha.microservicecoursemanagement.model.Course;
-import com.sha.microservicecoursemanagement.model.Transaction;
-import com.sha.microservicecoursemanagement.repository.CourseRepository;
-import com.sha.microservicecoursemanagement.repository.TransactionRepository;
+import com.example.demo.course.model.Course;
+import com.example.demo.course.model.Transaction;
+import com.example.demo.course.repository.CourseRepository;
+import com.example.demo.course.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

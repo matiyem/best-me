@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
        <Properties>
-              <property name="reqLogPath">C:\\Users\\alai\\Desktop\\microservice</property>
+              <property name="reqLogPath">C:\\Users\\alai\\Desktop\\best-me-main\\best-me-main</property>
               <property name="excLogPath">C:/Users/alai/Desktop/microservice</property>
               <property name="excArchive">${excLogPath}/archive</property>
               <property name="ReqArchive">${reqLogPath}/archive</property>
