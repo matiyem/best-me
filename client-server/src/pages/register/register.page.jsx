@@ -2,12 +2,12 @@ import React from 'react';
 import UserService from '../../services/user.service';
 import {User} from '../../models/user';
 import './register.page.css';
-import axios from "axios";
 
 export default class RegisterPage extends React.Component {
 
     constructor(props) {
         super(props);
+        debugger;
 
         if (UserService.currentUserValue) {
             this.props.history.push('/');
@@ -45,7 +45,7 @@ export default class RegisterPage extends React.Component {
         this.setState({loading: true});
         debugger;
         UserService.register(user).then(data => {
-            if (data.data.responseId === 1) {
+            if (data.data.responseId === 2) {
                 this.setState({errorMessage: data.data.message});
             } else {
                 this.props.history.push("/login");

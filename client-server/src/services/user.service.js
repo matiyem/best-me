@@ -3,15 +3,17 @@ import {BehaviorSubject} from 'rxjs';
 
 const API_URL = 'http://localhost:8080/auth/';
 
-const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
+let currentUserSubject=new BehaviorSubject() ;
 class UserService {
     get currentUserValue() {
-        return currentUserSubject.value;
+        debugger;
+        return new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser'))).value;
     }
 
     get currentUser() {
-        return currentUserSubject.asObservable();
+        debugger;
+        return new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser'))).asObservable();
     }
 
     login(user) {
@@ -22,19 +24,18 @@ class UserService {
             {headers: {'Content-Type': 'application/json; charset=UTF-8'}}
         ).then(response => {
             if (response.data.token) {
-                localStorage.setItem("user", JSON.stringify(response.data));
-
+                localStorage.setItem("currentUser", JSON.stringify(response.data));
+                currentUserSubject= new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
             }
-
             return response.data;
         });
     }
 
     logOut() {
-        return axios.post(API_URL + 'logout', {}).then(response => {
-            localStorage.removeItem('currentUser');
-            currentUserSubject.next(null);
-        })
+        debugger;
+        localStorage.removeItem('currentUser');
+        currentUserSubject.next(null);
+        return;
     }
 
     register(user) {
