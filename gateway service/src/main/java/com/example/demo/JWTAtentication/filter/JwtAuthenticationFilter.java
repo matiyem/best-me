@@ -5,7 +5,6 @@ import com.example.demo.JWTAtentication.exception.JwtTokenMissingException;
 import com.example.demo.JWTAtentication.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -48,8 +47,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
 				// e.printStackTrace();
 
 				ServerHttpResponse response = exchange.getResponse();
-				response.setStatusCode(HttpStatus.BAD_REQUEST);
-
+				response.setStatusCode(HttpStatus.BAD_GATEWAY);
 				return response.setComplete();
 			}
 

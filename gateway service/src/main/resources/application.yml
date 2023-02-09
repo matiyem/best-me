@@ -7,5 +7,8 @@ spring:
             allowedOrigins: "*"
             allowedHeaders: "*"
             allowedMethods:
-              - GET
               - POST
+              - PUT
+              - GET
+              - DELETE
+              - OPTION
