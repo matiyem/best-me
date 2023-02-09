@@ -2,6 +2,7 @@ package com.demo.util;
 
 import java.util.Date;
 
+import com.demo.errorHandler.BusinessException;
 import com.demo.exception.JwtTokenMalformedException;
 import com.demo.exception.JwtTokenMissingException;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,15 +51,15 @@ public class JwtUtil {
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
 		} catch (SignatureException ex) {
-			throw new JwtTokenMalformedException("Invalid JWT signature");
+			throw new BusinessException("1","Invalid JWT signature");
 		} catch (MalformedJwtException ex) {
-			throw new JwtTokenMalformedException("Invalid JWT token");
+			throw new BusinessException("2","Invalid JWT token");
 		} catch (ExpiredJwtException ex) {
-			throw new JwtTokenMalformedException("Expired JWT token");
+			throw new BusinessException("3","Expired JWT token");
 		} catch (UnsupportedJwtException ex) {
-			throw new JwtTokenMalformedException("Unsupported JWT token");
+			throw new BusinessException("4","Unsupported JWT token");
 		} catch (IllegalArgumentException ex) {
-			throw new JwtTokenMissingException("JWT claims string is empty.");
+			throw new BusinessException("5","JWT claims string is empty.");
 		}
 	}
 	@Bean
