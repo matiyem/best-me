@@ -2,6 +2,7 @@ package com.demo.rest.controller;
 
 import com.demo.entity.RegisterUserResponse;
 import com.demo.entity.User;
+import com.demo.repository.UserRepository;
 import com.demo.service.IUserService;
 import com.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -20,6 +22,8 @@ public class AuthRestController {
 
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private IUserService userService;
@@ -34,8 +38,10 @@ public class AuthRestController {
             if (bCryptEncoder.matches(user.getPassword(), gotUser.get().getPassword())) {
                 String token = jwtUtil.generateToken(user.getUsername());
                 user.setToken(token);
-            }
-            else {
+                user.setId(gotUser.get().getId());
+                user.setPassword("");
+                System.out.println(token);
+            } else {
                 user.setMessage("user or password not valid");
             }
         }
@@ -60,12 +66,9 @@ public class AuthRestController {
         return new ResponseEntity<RegisterUserResponse>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/auth/abas")
-    public ResponseEntity<String> register1(@RequestBody String userName) {
-        // Persist user to some persistent storage
-        System.out.println("Info saved...");
-
-        return new ResponseEntity<String>("Registered", HttpStatus.OK);
+    @PostMapping("/service/names")
+    public ResponseEntity<?> getNamesOfUsers(@RequestBody List<Long> idList) {
+        return ResponseEntity.ok(userRepository.findByIdList(idList));
     }
 
 }
