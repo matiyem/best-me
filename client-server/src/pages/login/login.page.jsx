@@ -17,7 +17,7 @@ export default class LoginPage extends React.Component {
             user: new User('', ''),
             submitted: false,
             loading: false,
-            errorMessage: ''
+            errorMessage: '',
         };
     }
 
@@ -27,7 +27,6 @@ export default class LoginPage extends React.Component {
         user[name] = value;
         this.setState({user: user});
     }
-
     handleLogin(e) {
         debugger;
         e.preventDefault();
@@ -47,6 +46,10 @@ export default class LoginPage extends React.Component {
                     loading: false
                 });
             } else {
+                this.setState({
+                    user:data
+                });
+                debugger;
                 this.props.history.push("/home");
 
             }

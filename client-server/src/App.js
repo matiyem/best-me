@@ -31,30 +31,15 @@ export default class App extends React.Component {
         };
     }
     componentDidMount() {
-        debugger
+        debugger;
         UserService.currentUser.subscribe(data => {
-            if (data === null) {
-                this.setState({currentUser: new User()});
-            } else {
-                this.setState({currentUser: data});
-            }
+            this.setState({currentUser: data});
         });
     }
-
     logout() {
         debugger;
-        UserService.logOut()
-        this.setState({
-            currentUser: new User()
-        })
-
+        UserService.logOut();
         this.state.history.push('/login');
-        // this.state={
-        //     history:,
-        //     currentUser: new User()
-        //
-        // };
-
     }
 
     render() {
@@ -63,7 +48,7 @@ export default class App extends React.Component {
         return (
             <Router history={history}>
                 <div>
-                    {this.state.currentUser && this.state.currentUser.username != undefined &&
+                    {this.state.currentUser &&
                         <nav className="navbar navbar-expand navbar-dark bg-dark">
                             <a className="navbar-brand" href="https/reactjs.org">
                                 <img src={logo} className="App-logo" alt="logo"/>
@@ -84,7 +69,7 @@ export default class App extends React.Component {
                             </div>
                         </nav>
                     }
-                    {this.state.currentUser.username === undefined &&
+                    {!this.state.currentUser &&
                         <nav className="navbar navbar-expand navbar-dark bg-dark">
                             <a className="navbar-brand" href="https/reactjs.org">
                                 <img src={logo} className="App-logo" alt="logo"/>
