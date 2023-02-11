@@ -38,7 +38,7 @@ public class AppLogger {
 
     public void logRequestInput(JoinPoint joinPoint, Object input) {
 
-        ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executing - input param : " + input.getClass().getSimpleName() + " " + gSon.toJson(joinPoint.getArgs()));
+//        ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executing - input param : " + input.getClass().getSimpleName() + " " + gSon.toJson(joinPoint.getArgs()));
 
     }
     public void logRequestOutput(JoinPoint joinPoint, Object result) {

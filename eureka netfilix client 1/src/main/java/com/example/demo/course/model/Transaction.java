@@ -24,4 +24,10 @@ public class Transaction implements Serializable {
 
     @Column(name = "date_of_issue")
     private LocalDateTime dateOfIssue;
+
+    @Transient
+    private int statusId;
+
+    @Transient
+    private String statusMessage;
 }

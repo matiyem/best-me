@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService{
@@ -41,5 +42,15 @@ public class CourseServiceImpl implements CourseService{
     @Override
     public Transaction saveTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
+    }
+
+    @Override
+    public void deleteTransaction(Long id) {
+        transactionRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Transaction> findTransactionByUserAndCourseId(Long userId, Long courseId) {
+        return transactionRepository.findByUserIdAndCourseId(userId,courseId);
     }
 }
