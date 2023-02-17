@@ -12,14 +12,14 @@ export default class RegisterPage extends React.Component {
         if (UserService.currentUserValue) {
             this.props.history.push('/');
         }
-
         this.state = {
             user: new User('', '', '', '',),
             submitted: false,
             loading: false,
-            errorMessage: ''
+            errorMessage: '',
         };
     }
+
 
     handleChange(e) {
         debugger;

@@ -42,11 +42,11 @@ export default class ProfilePage extends React.Component {
                 infoMessage: 'The lesson was successfully deleted '
             })
 
-            var finalTransaction=this.state.transactions.filter((tran)=>{
-                return tran.id !==transaction.id;
+            var finalTransaction = this.state.transactions.filter((tran) => {
+                return tran.id !== transaction.id;
             });
             this.setState({
-                transactions:finalTransaction
+                transactions: finalTransaction
             })
             setTimeout(() => {
                 document.getElementById("SuccessfullId").hidden = true;
@@ -71,6 +71,14 @@ export default class ProfilePage extends React.Component {
                 })
             }, 3000);
         });
+    }
+
+    exportExcel() {
+
+    }
+
+    exportPdf() {
+
     }
 
     render() {
@@ -126,6 +134,53 @@ export default class ProfilePage extends React.Component {
                         }
                         </tbody>
                     </table>
+                }
+                {transactions.length &&
+                    //
+                    // <div className="card">
+                    //     <div className="flex flex-row flex-wrap card-container blue-container">
+                    //         <div
+                    //             className="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2">
+                    //             <button
+                    //                 className="btn btn-primary"
+                    //                 onClick={() => this.exportPdf()}>Export pdf
+                    //             </button>
+                    //         </div>
+                    //         <div
+                    //             className="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2">
+                    //             <button
+                    //                 className="btn btn-primary"
+                    //                 onClick={() => this.exportExcel()}>Export excel
+                    //             </button>
+                    //         </div>
+                    //
+                    //     </div>
+                    // </div>
+
+
+                    <div className="card">
+                    <div className="flex flex-row flex-wrap card-container blue-container">
+                    <div className="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2">1</div>
+                    <div className="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2">2</div>
+                    <div className="flex align-items-center justify-content-center w-4rem h-4rem bg-blue-500 font-bold text-white border-round m-2">3</div>
+                    </div>
+                    </div>
+
+
+
+
+
+                    // <div className="flex flex-row-reverse flex-wrap card-container yellow-container">
+                    //         <button
+                    //             className="flex align-items-center justify-content-center w-4rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2"
+                    //             onClick={() => this.exportPdf()}>Export pdf
+                    //         </button>
+                    //         <button
+                    //             className="flex align-items-center justify-content-center w-4rem h-4rem bg-yellow-500 font-bold text-gray-900 border-round m-2"
+                    //             onClick={() => this.exportExcel()}>Export excel
+                    //         </button>
+                    //     </div>
+
                 }
             </div>
         );

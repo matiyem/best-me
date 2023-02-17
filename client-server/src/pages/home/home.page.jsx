@@ -21,6 +21,7 @@ export default class HomePage extends React.Component {
 
     componentDidMount() {
         UserService.currentUser.subscribe(data => {
+            debugger;
             this.setState({
                 currentUser: data
             });
@@ -34,7 +35,7 @@ export default class HomePage extends React.Component {
         this.setState({
             courses: {loading: true}
         });
-
+        debugger;
         CourseService.findAllCourses().then(courses => {
             debugger;
             this.setState({courses: courses.data});
@@ -74,7 +75,7 @@ export default class HomePage extends React.Component {
             }
         }, error => {
             debugger;
-            if (error.response.status===502){
+            if (error.response.status === 502) {
                 userService.logOut();
                 this.props.history.push("/login");
             }
@@ -96,6 +97,7 @@ export default class HomePage extends React.Component {
 
 
     render() {
+        debugger;
         const {courses, infoMessage, errorMessage, warningMessage} = this.state;
         return (
             <div className="col-md-12">
@@ -150,8 +152,10 @@ export default class HomePage extends React.Component {
                             </tr>
                         )}
                         </tbody>
+
                     </table>
                 }
+
             </div>
         );
     }

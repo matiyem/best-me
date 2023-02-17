@@ -17,7 +17,7 @@ import {
     faUserPlus,
     faSignInAlt,
     faHome,
-    faSignOutAlt
+    faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import {User} from './models/user';
 
