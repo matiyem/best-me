@@ -1,14 +1,18 @@
 package com.demo.rest.controller;
 
+import cn.apiclub.captcha.Captcha;
 import com.demo.entity.RegisterUserResponse;
 import com.demo.entity.User;
 import com.demo.repository.UserRepository;
 import com.demo.service.IUserService;
+import com.demo.util.CaptchaUtil;
 import com.demo.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,20 +37,24 @@ public class AuthRestController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<User> login(@RequestBody User user) {
-        Optional<User> gotUser = userService.findByUsername(user.getUsername());
-        if (!(gotUser.isEmpty())) {
-            if (bCryptEncoder.matches(user.getPassword(), gotUser.get().getPassword())) {
-                String token = jwtUtil.generateToken(user.getUsername());
-                user.setToken(token);
-                user.setId(gotUser.get().getId());
-                user.setPassword("");
-                System.out.println(token);
-            } else {
-                user.setMessage("user or password not valid");
+        if (user.getCaptcha().equals(user.getHiddenCaptcha())) {
+
+            Optional<User> gotUser = userService.findByUsername(user.getUsername());
+            if (!(gotUser.isEmpty())) {
+                if (bCryptEncoder.matches(user.getPassword(), gotUser.get().getPassword())) {
+                    String token = jwtUtil.generateToken(user.getUsername());
+                    user.setToken(token);
+                    user.setId(gotUser.get().getId());
+                    user.setPassword("");
+                    System.out.println(token);
+                } else {
+                    user.setMessage("user or password not valid.");
+                }
             }
+        }else{
+            user.setMessage("captcha not valid.");
+
         }
-
-
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
@@ -69,6 +77,21 @@ public class AuthRestController {
     @PostMapping("/service/names")
     public ResponseEntity<?> getNamesOfUsers(@RequestBody List<Long> idList) {
         return ResponseEntity.ok(userRepository.findByIdList(idList));
+    }
+
+    @GetMapping("auth/loadCaptcha")
+    public ResponseEntity<User> registerUser() {
+        User user = new User();
+        getCaptcha(user);
+        return ResponseEntity.ok(user);
+    }
+
+    private void getCaptcha(User user) {
+        Captcha captcha = CaptchaUtil.createCaptcha(250, 70);
+        user.setHiddenCaptcha(captcha.getAnswer());
+        user.setCaptcha(""); // value entered by the User
+        user.setRealCaptcha(CaptchaUtil.encodeCaptcha(captcha));
+
     }
 
 }
