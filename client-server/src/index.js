@@ -2,11 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import 'font-awesome/css/font-awesome.min.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import 'primeflex/primeflex.scss';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

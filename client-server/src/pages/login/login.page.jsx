@@ -14,25 +14,11 @@ export default class LoginPage extends React.Component {
         }
 
         this.state = {
-            user: new User('', '','','','',''),
+            user: new User('', ''),
             submitted: false,
             loading: false,
             errorMessage: '',
         };
-    }
-
-    componentDidMount() {
-        debugger;
-        const user = this.state.user;
-        UserService.loadCaptcha(user).then(data => {
-            debugger;
-            this.setState({
-                user: data.data,
-            })
-        }, error => {
-            debugger;
-
-        });
     }
 
     handleChange(e) {
@@ -41,7 +27,6 @@ export default class LoginPage extends React.Component {
         user[name] = value;
         this.setState({user: user});
     }
-
     handleLogin(e) {
         debugger;
         e.preventDefault();
@@ -62,11 +47,13 @@ export default class LoginPage extends React.Component {
                 });
             } else {
                 this.setState({
-                    user: data
+                    user:data
                 });
                 debugger;
                 this.props.history.push("/home");
+
             }
+
         }, error => {
             this.setState({
                 errorMessage: error,
@@ -75,25 +62,8 @@ export default class LoginPage extends React.Component {
         });
     }
 
-    changeCaptcha(e) {
-        debugger;
-        const {user} = this.state;
-        UserService.loadCaptcha(user).then(data => {
-            debugger;
-            this.setState.user({
-                captcha: data.data.realCaptcha,
-                hiddenCaptcha:data.data.hiddenCaptcha
-
-            })
-        }, error => {
-            debugger;
-
-        });
-    }
-
     render() {
         const {user, submitted, loading, errorMessage} = this.state;
-        debugger;
         return (
             <div className="col-md-12">
                 <div className="card card-container">
@@ -121,26 +91,10 @@ export default class LoginPage extends React.Component {
                                 <div className="help-block">Password is required</div>
                             }
                         </div>
-                        <div className={'form-group' + (submitted && !user.captcha ? 'has-error' : '')}>
-                            <label htmlFor="captcha">Captcha</label>
-                            <input type="text" className="form-control" name="captcha" value={user.captcha}
-                                   onChange={(e) => this.handleChange(e)}/>
-                            {submitted && !user.captcha &&
-                                <div className="help-block">captcha is required</div>
-                            }
-                        </div>
                         <div className="form-group">
                             <button className="btn btn-lg btn-primary btn-block btn-signin form-submit-button"
                                     disabled={loading}>Login
                             </button>
-                        </div>
-                        <div className="form-group">
-                            <div className="col-4" style={{display: "flex"}}>
-
-                                <div style={{flex: 1}}><img src={`data:image/jpeg;base64,${user.realCaptcha}`}/></div>
-                                {/*<div  style={{flex:1}}  onClick={(e) => this.handleChange(e)}><span className="glyphicon glyphicon-refresh"></span></div>*/}
-                               <div onClick={(e) => this.changeCaptcha(e)}> <i className="bi bi-arrow-counterclockwise" ></i></div>
-                            </div>
                         </div>
                     </form>
                 </div>

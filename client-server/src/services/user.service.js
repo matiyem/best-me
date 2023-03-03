@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {BehaviorSubject} from 'rxjs';
-import {User} from "../models/user";
 
 const API_URL = 'http://localhost:8080/auth/';
 
@@ -43,13 +42,6 @@ class UserService {
     get currentUserValue(){
         return currentUserSubject.value;
     }
-    loadCaptcha(){
-        return axios.get(
-            API_URL + 'loadCaptcha',
-            {headers: {'Content-Type': 'application/json; charset=UTF-8'}});
-    }
-
-
 }
 
 export default new UserService();
