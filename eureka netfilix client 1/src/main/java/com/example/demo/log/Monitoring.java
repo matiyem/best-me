@@ -17,10 +17,10 @@ public class Monitoring {
     @Autowired
     AppLogger appLogger;
 
-    @AfterThrowing(value = "(execution(* com.example.demo..*.*(..)) || execution(* com.example.demo..*.*(..)) || execution(* com.example.demo..*.*(..))) && args(input)", throwing = "throwable")
+    @AfterThrowing(value = "(execution(* com.example.demo.course.controller..*.*(..))) && args(input)", throwing = "throwable")
     public void logServiceException(JoinPoint joinPoint, Object input, Exception throwable) throws Throwable {
 
-        appLogger.logException(joinPoint, input, throwable);
+//        appLogger.logException(joinPoint, input, throwable);
     }
 
     @Before(value = "(execution(* com.example.demo.course.controller..*.*(..))  && args(input))")
@@ -39,11 +39,11 @@ public class Monitoring {
         appLogger.logRequestInput(joinPoint, input);
     }
 
-//    @AfterReturning(value = "execution(* com.example.demo.controller..*.*(..))", returning = "result")
-//    public void logControllerCallOutput(JoinPoint joinPoint, Object result) {
-//        appLogger.logRequestOutput(joinPoint, result);
-//        ThreadContext.pop();
-//    }
+    @AfterReturning(value = "execution(* com.example.demo.controller..*.*(..))", returning = "result")
+    public void logControllerCallOutput(JoinPoint joinPoint, Object result) {
+        appLogger.logRequestOutput(joinPoint, result);
+        ThreadContext.pop();
+    }
 
     @AfterReturning(value = "execution(@org.springframework.web.bind.annotation.ExceptionHandler * *(..))", returning = "result")
     public void afterHandleError(JoinPoint joinPoint, Object result) {

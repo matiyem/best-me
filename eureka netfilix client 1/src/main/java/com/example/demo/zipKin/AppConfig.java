@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
     Time: 8:57 AM
 **/
 public class AppConfig {
-    @Bean
-    public Sampler samplerOb() {
-        return Sampler.ALWAYS_SAMPLE;
-    }
+//    @Bean
+//    public Sampler samplerOb() {
+//        return Sampler.ALWAYS_SAMPLE;
+//    }
 }

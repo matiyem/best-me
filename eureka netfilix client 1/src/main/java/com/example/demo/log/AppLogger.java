@@ -37,17 +37,16 @@ public class AppLogger {
     }
 
     public void logRequestInput(JoinPoint joinPoint, Object input) {
-
+        ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executing - input param : " + input.getClass().getSimpleName());
 //        ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executing - input param : " + input.getClass().getSimpleName() + " " + gSon.toJson(joinPoint.getArgs()));
 
     }
+
     public void logRequestOutput(JoinPoint joinPoint, Object result) {
-        saveOperation.saveInMongo(new Log(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executed - output param : " + result.getClass().getSimpleName()));
+//        saveOperation.saveInMongo(new Log(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executed - output param : " + result.getClass().getSimpleName()));
         ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executed - output param : " + result.getClass().getSimpleName());
 //        ReqLogger.info(joinPoint.getSignature().getDeclaringType().getSimpleName() + "." + joinPoint.getSignature().getName() + " executed - output param : " + result.getClass().getSimpleName() + " " + gSon.toJson(new Object()));
     }
-
-
 
 
 }
