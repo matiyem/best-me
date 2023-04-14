@@ -4,23 +4,27 @@ import CourseService from '../../services/course.service';
 import {User} from '../../models/user';
 import {Transaction} from '../../models/transaction';
 import userService from "../../services/user.service";
+import {Toast} from "primereact/toast";
+import {Button} from 'primereact/button';
+
 
 export default class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
-        debugger
+        this.toast = React.createRef()
         this.state = {
             courses: [],
-            errorMessage: '',
-            infoMessage: '',
-            warningMessage: '',
             currentUser: new User()
         };
+    }
+    showToast(severityValue, summaryValue, detailValue) {
+        this.toast.current.show({severity: severityValue, summary: summaryValue, detail: detailValue})
     }
 
     componentDidMount() {
         UserService.currentUser.subscribe(data => {
+            debugger;
             this.setState({
                 currentUser: data
             });
@@ -34,7 +38,7 @@ export default class HomePage extends React.Component {
         this.setState({
             courses: {loading: true}
         });
-
+        debugger;
         CourseService.findAllCourses().then(courses => {
             debugger;
             this.setState({courses: courses.data});
@@ -42,49 +46,31 @@ export default class HomePage extends React.Component {
             if (error.response.status === 502) {
                 userService.logOut();
                 this.props.history.push("/login");
+                userService.loadCaptcha();
             }
         });
     }
 
     enroll(course) {
         if (!this.state.currentUser) {
-            this.setState({errorMessage: 'To enroll a course, you should sign in.'});
+            this.showToast('Error', 'Error Message', 'To enroll a course, you should sign in.');
             this.props.history.push("/login");
         }
         var transaction = new Transaction(this.state.currentUser.id, course);
         CourseService.createTransaction(transaction).then(data => {
             if (data.data.statusId === 2) {
-                this.setState({infoMessage: 'You enrolled the course successfully.'});
-                setTimeout(() => {
-                    document.getElementById("SuccessfullId").hidden = true;
-                    this.setState({
-                        infoMessage: ''
-                    })
-                }, 3000);
-
-
+                this.showToast('success', 'Success Message', 'You enrolled the course successfully.');
             } else {
-                this.setState({warningMessage: 'This course has already been selected.'});
-                setTimeout(() => {
-                    document.getElementById("warningId").hidden = true;
-                    this.setState({
-                        warningMessage: ''
-                    })
-                }, 3000);
+                this.showToast('warn', 'Warn Message', 'This course has already been selected.');
             }
         }, error => {
             debugger;
-            if (error.response.status===502){
+            if (error.response.status === 502) {
                 userService.logOut();
                 this.props.history.push("/login");
+                userService.loadCaptcha();
             }
-            this.setState({errorMessage: 'Unexpected error occurred.'});
-            setTimeout(() => {
-                document.getElementById("error").hidden = true;
-                this.setState({
-                    errorMessage: ''
-                })
-            }, 3000);
+            this.showToast('Error', 'Error Message', 'Unexpected error occurred.');
         });
     }
 
@@ -96,32 +82,12 @@ export default class HomePage extends React.Component {
 
 
     render() {
-        const {courses, infoMessage, errorMessage, warningMessage} = this.state;
+        debugger;
+        const {courses} = this.state;
         return (
             <div className="col-md-12">
-                {infoMessage &&
-                    <div className="alert alert-success" id="SuccessfullId">
-                        <strong>Successfull! </strong>{infoMessage}
-                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-                {errorMessage &&
-                    <div className="alert alert-danger" id="error">
-                        <strong>Error! </strong>{errorMessage}
-                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }{warningMessage &&
-                <div className="alert alert-warning" id="warningId">
-                    <strong>Warning! </strong>{warningMessage}
-                    <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            }
+                <Toast ref={this.toast}/>
+
                 {courses.loading && <em> Loading courses...</em>}
                 {courses.length &&
                     <table className="table table-striped">
@@ -141,17 +107,18 @@ export default class HomePage extends React.Component {
                                 <td>{course.title}</td>
                                 <td>{course.author}</td>
                                 <td>
-                                    <button className="btn btn-info" onClick={() => this.detail(course)}>Detail</button>
+                                     <Button label="Detail" severity="info" size="sm" onClick={() => this.detail(course)}/>
                                 </td>
                                 <td>
-                                    <button className="btn btn-success" onClick={() => this.enroll(course)}>Enroll
-                                    </button>
+                                    <Button label="Enroll" severity="danger" size="sm" onClick={() => this.enroll(course)}/>
                                 </td>
                             </tr>
                         )}
                         </tbody>
+
                     </table>
                 }
+
             </div>
         );
     }

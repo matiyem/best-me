@@ -46,13 +46,36 @@ class CourseService {
     }
 
     deleteTransaction(transactionId) {
+        debugger;
         return axios.delete(API_URL + 'deleteCourse/' + transactionId,
             {
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
                     "Authorization": JSON.parse(localStorage.getItem("currentUser")) != null ? JSON.parse(localStorage.getItem("currentUser")).token : ""
                 }
-            });
+            })
+    }
+
+    exportExcel(userId) {
+        return axios.get(API_URL + '/profileExport/excel/' + userId,
+            {
+                responseType: 'arraybuffer',
+                headers: {
+                    'Content-Type': 'Content-Type: blob;responseType: arraybuffer',
+                    "Authorization": JSON.parse(localStorage.getItem("currentUser")) != null ? JSON.parse(localStorage.getItem("currentUser")).token : ""
+                }
+            })
+    }
+
+    exportPdf(userId) {
+        return axios.get(API_URL + '/exportPdf/' + userId,
+            {
+                responseType: 'arraybuffer',
+                headers: {
+                    'Content-Type': 'Content-Type: blob;responseType: arraybuffer',
+                    "Authorization": JSON.parse(localStorage.getItem("currentUser")) != null ? JSON.parse(localStorage.getItem("currentUser")).token : ""
+                }
+            })
     }
 
 }

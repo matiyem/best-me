@@ -2,6 +2,7 @@ import React from 'react';
 import UserService from '../../services/user.service';
 import {User} from '../../models/user';
 import './register.page.css';
+import userService from "../../services/user.service";
 
 export default class RegisterPage extends React.Component {
 
@@ -12,14 +13,14 @@ export default class RegisterPage extends React.Component {
         if (UserService.currentUserValue) {
             this.props.history.push('/');
         }
-
         this.state = {
             user: new User('', '', '', '',),
             submitted: false,
             loading: false,
-            errorMessage: ''
+            errorMessage: '',
         };
     }
+
 
     handleChange(e) {
         debugger;
@@ -49,6 +50,7 @@ export default class RegisterPage extends React.Component {
                 this.setState({errorMessage: data.data.message});
             } else {
                 this.props.history.push("/login");
+                userService.loadCaptcha();
             }
         }, error => {
 
